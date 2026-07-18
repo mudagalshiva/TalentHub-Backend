@@ -14,35 +14,19 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        CorsConfiguration configuration =
-                new CorsConfiguration();
+        CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-
-                "http://127.0.0.1:5500",
-
                 "http://localhost:5500",
-
-                "http://127.0.0.1:5173",
-
-                "http://localhost:5173"
-
+                "https://6a5bc681ffb46a2793b49aff--timely-yeot-6f455f.netlify.app"
         ));
 
         configuration.setAllowedMethods(List.of(
-
                 "GET",
-
                 "POST",
-
                 "PUT",
-
                 "DELETE",
-
-                "PATCH",
-
                 "OPTIONS"
-
         ));
 
         configuration.setAllowedHeaders(List.of("*"));
@@ -52,15 +36,8 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration(
-
-                "/**",
-
-                configuration
-
-        );
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
-
 }
