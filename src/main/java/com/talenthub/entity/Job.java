@@ -1,5 +1,6 @@
 package com.talenthub.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Job {
 
     @Id
@@ -33,4 +35,8 @@ public class Job {
     private String jobType;
 
     private LocalDate postedDate;
+
+    private Long recruiterId;
+
+    private String experience;
 }

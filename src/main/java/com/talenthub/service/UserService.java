@@ -1,9 +1,6 @@
 package com.talenthub.service;
 
-import com.talenthub.dto.ApiResponse;
-import com.talenthub.dto.LoginRequest;
-import com.talenthub.dto.LoginResponse;
-import com.talenthub.dto.RegisterRequest;
+import com.talenthub.dto.*;
 import com.talenthub.entity.User;
 import com.talenthub.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +65,7 @@ public class UserService {
             return new LoginResponse(
                     false,
                     "Invalid Email",
+                    null,
                     null
             );
         }
@@ -81,6 +79,7 @@ public class UserService {
             return new LoginResponse(
                     false,
                     "Invalid Password",
+                    null,
                     null
             );
         }
@@ -90,10 +89,38 @@ public class UserService {
                         user.getEmail()
                 );
 
+        String frontendRole;
+
+        switch (user.getRole()) {
+
+            case "JOB_SEEKER":
+                frontendRole = "candidate";
+                break;
+
+            case "RECRUITER":
+                frontendRole = "recruiter";
+                break;
+
+            case "ADMIN":
+                frontendRole = "admin";
+                break;
+
+            default:
+                frontendRole = "candidate";
+        }
+
+        UserDto userDto = new UserDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                frontendRole
+        );
+
         return new LoginResponse(
                 true,
                 "Login Successful",
-                token
+                token,
+                userDto
         );
     }
 }

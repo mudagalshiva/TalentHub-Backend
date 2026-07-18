@@ -14,16 +14,20 @@ public class JwtUtil {
 
     public String generateToken(String email) {
 
+        Date now = new Date();
+        Date expiry = new Date(System.currentTimeMillis() + 86400000);
+
+        System.out.println("==================================");
+        System.out.println("Generating JWT");
+        System.out.println("Email  : " + email);
+        System.out.println("Issued : " + now);
+        System.out.println("Expiry : " + expiry);
+
         return Jwts.builder()
                 .subject(email)
-                .issuedAt(new Date())
-                .expiration(
-                        new Date(System.currentTimeMillis()
-                                + 1000 * 60 * 60 * 24)
-                )
-                .signWith(
-                        Keys.hmacShaKeyFor(SECRET_KEY.getBytes())
-                )
+                .issuedAt(now)
+                .expiration(expiry)
+                .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                 .compact();
     }
 

@@ -13,23 +13,31 @@ public class FileUploadService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
-    public String uploadResume(MultipartFile file)
-            throws IOException {
+    public String uploadResume(MultipartFile file) throws IOException {
+
+        if (file.isEmpty()) {
+            throw new RuntimeException("Please select a resume.");
+        }
+
+        String originalFileName = file.getOriginalFilename();
 
         String fileName =
-                System.currentTimeMillis()
-                        + "_" +
-                        file.getOriginalFilename();
+                System.currentTimeMillis() + "_" + originalFileName;
 
-        Path path =
-                Paths.get(uploadDir, fileName);
+        Path uploadPath = Paths.get(uploadDir);
+
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        Path filePath = uploadPath.resolve(fileName);
 
         Files.copy(
                 file.getInputStream(),
-                path,
+                filePath,
                 StandardCopyOption.REPLACE_EXISTING
         );
 
-        return fileName;
+        return "/uploads/" + fileName;
     }
 }

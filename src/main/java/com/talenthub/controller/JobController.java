@@ -32,6 +32,13 @@ public class JobController {
         return jobService.getJobById(id);
     }
 
+    @PutMapping("/{id}")
+    public Job updateJob(@PathVariable Long id,
+                         @RequestBody Job job) {
+
+        return jobService.updateJob(id, job);
+    }
+
     @PreAuthorize("hasAuthority('RECRUITER')")
     @DeleteMapping("/{id}")
     public String deleteJob(@PathVariable Long id) {

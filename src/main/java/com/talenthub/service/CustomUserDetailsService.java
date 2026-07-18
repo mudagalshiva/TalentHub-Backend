@@ -1,4 +1,4 @@
-package com.talenthub.security;
+package com.talenthub.service;
 
 import com.talenthub.entity.User;
 import com.talenthub.repository.UserRepository;
