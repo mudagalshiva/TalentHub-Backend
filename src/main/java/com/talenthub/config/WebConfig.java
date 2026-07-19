@@ -2,6 +2,7 @@ package com.talenthub.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -14,12 +15,21 @@ public class WebConfig implements WebMvcConfigurer {
     private String uploadDir;
 
     @Override
+    public void addCorsMappings(CorsRegistry registry) {
+
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .exposedHeaders("*");
+    }
+
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        String uploadPath =
-                Paths.get(uploadDir)
-                        .toFile()
-                        .getAbsolutePath();
+        String uploadPath = Paths.get(uploadDir)
+                .toFile()
+                .getAbsolutePath();
 
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadPath + "/");
