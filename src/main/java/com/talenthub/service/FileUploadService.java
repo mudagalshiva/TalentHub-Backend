@@ -13,6 +13,9 @@ public class FileUploadService {
     @Value("${file.upload-dir}")
     private String uploadDir;
 
+    @Value("${app.base-url}")
+    private String baseUrl;
+
     public String uploadResume(MultipartFile file) throws IOException {
 
         if (file.isEmpty()) {
@@ -21,8 +24,7 @@ public class FileUploadService {
 
         String originalFileName = file.getOriginalFilename();
 
-        String fileName =
-                System.currentTimeMillis() + "_" + originalFileName;
+        String fileName = System.currentTimeMillis() + "_" + originalFileName;
 
         Path uploadPath = Paths.get(uploadDir);
 
@@ -38,6 +40,6 @@ public class FileUploadService {
                 StandardCopyOption.REPLACE_EXISTING
         );
 
-        return "/uploads/" + fileName;
+        return baseUrl + "/uploads/" + fileName;
     }
 }
